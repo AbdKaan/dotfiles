@@ -1,0 +1,22 @@
+# Theme
+# theme = GruvboxDark
+theme = catppuccin-mocha
+
+#font-family = Meslo LGS Nerd Font Mono
+#font-family = CaskaydiaMono Nerd Font
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+
+# A bit transparent background
+background-opacity = 0.95
+
+# Remove title bar
+gtk-titlebar = false
+
+# custom-shader = /home/chris/bloom.glsl
+#custom-shader = /home/chris/crt.glsl
+
+#keybind = ctrl+h=text:\x08
+#keybind = ctrl+j=text:\x0A
+#keybind = ctrl+k=text:\x0B
+#keybind = ctrl+l=text:\x0C
