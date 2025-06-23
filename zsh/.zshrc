@@ -117,6 +117,11 @@ export PATH=/usr/local/cuda-12.6/bin${PATH:+:${PATH}}
 # Python alias
 alias python=python3
 
+# Export the scripts folder
+export PATH="$HOME/.local/scripts${PATH:+:${PATH}}"
+# Keybinding for tmux-sessionizer script
+bindkey -s ^f "tmux-sessionizer\n"
+
 # Disable IBus for terminal applications (can't use <C-h>, <C-j> etc)
 if [[ $TERM == "xterm-256color" || $TERM == "screen-256color" ]]; then
     export GTK_IM_MODULE=xim
