@@ -122,13 +122,13 @@ default_floating_border pixel 1
 set $ws1 "1: Workspace"
 set $ws2 "2: Music/Video"
 set $ws3 "3: Firefox"
-set $ws4 "4: Spotify"
+set $ws4 "4: Music"
 set $ws5 "5: Discord"
 set $ws6 "6: Obsidian"
 set $ws7 "7: idk kev"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10"
+set $ws10 "10"	
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -219,10 +219,31 @@ exec --no-startup-id xrandr --output DP-4 --mode 2560x1440 --rate 144
 exec --no-startup-id xset -dpms
 exec --no-startup-id xset s off
 
+# Assign workspaces to specific outputs
+workspace $ws1 output DP-4
+workspace $ws2 output HDMI-0
+workspace $ws3 output DP-4
+workspace $ws4 output DP-4
+workspace $ws6 output DP-4
+
 # Start terminal on workspace 1
-exec --no-startup-id i3-msg "workspace 1; exec ghostty"
+#exec --no-startup-id i3-msg "workspace $ws1; exec ghostty"
 
 # Start Firefox on workspace 3 (then manually move the 2nd firefox window to workspace 2 which is on 2nd monitor)
-exec --no-startup-id i3-msg "workspace 3; exec firefox"
-exec --no-startup-id i3-msg "workspace 4; exec spotify"
-exec --no-startup-id i3-msg "workspace 6; exec nautilus"
+#exec --no-startup-id i3-msg "workspace $ws3; exec firefox"
+#exec --no-startup-id i3-msg "workspace $ws4; exec youtube-music"
+#exec --no-startup-id i3-msg "workspace $ws6; exec nautilus"
+
+# Launch apps without workspace jumps
+exec --no-startup-id ghostty
+exec --no-startup-id firefox
+exec --no-startup-id youtube-music
+exec --no-startup-id nautilus
+
+# You can access the class names using: `xprop | grep WM_CLASS` and then clicking the window you want
+# Assign windows to workspaces when they appear
+for_window [class="com.mitchellh.ghostty"] move to workspace $ws1
+for_window [class="firefox_firefox"] move to workspace $ws3
+for_window [class="com.github.th_ch.youtube_music"] move to workspace $ws4
+for_window [class="org.gnome.Nautilus"] move to workspace $ws6
+
