@@ -114,6 +114,9 @@ export NVM_DIR="$HOME/.nvm"
 # Export NVCC
 export PATH=/usr/local/cuda-12.6/bin${PATH:+:${PATH}}
 
+# Goose
+export PATH="$HOME/go/bin:$PATH"
+
 # Python alias
 alias python=python3
 
