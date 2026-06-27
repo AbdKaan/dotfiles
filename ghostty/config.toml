@@ -1,0 +1,19 @@
+[[keybindings]]
+key = "C-h"
+action = "send_input"
+value = "\u0008"  # Equivalent to Ctrl+H
+
+[[keybindings]]
+key = "C-j"
+action = "send_input"
+value = "\u000A"  # Equivalent to Ctrl+J
+
+[[keybindings]]
+key = "C-k"
+action = "send_input"
+value = "\u000B"  # Equivalent to Ctrl+K
+
+[[keybindings]]
+key = "C-l"
+action = "send_input"
+value = "\u000C"  # Equivalent to Ctrl+L

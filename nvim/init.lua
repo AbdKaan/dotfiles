@@ -201,6 +201,9 @@ vim.keymap.set('n', '<C-j>', ':wincmd j<CR>')
 vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
 vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
 
+-- To keep what you copied when pasting into selected text in visual mode. Yanks into blackhole ("_) register
+vim.keymap.set('x', 'p', '"_dP')
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -722,6 +725,8 @@ require('lazy').setup({
         'mypy', -- Python linter
         'ruff', -- Python linter
         'typescript-language-server', --typescript lsp
+        'prettierd', -- JS/TS formatter daemon
+        'prettier', -- JS/TS optional fallback
       })
       require('mason-tool-installer').setup({ ensure_installed = ensure_installed })
 
@@ -777,7 +782,12 @@ require('lazy').setup({
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black', 'mypy', 'ruff' },
         go = { 'goimports-reviser', args = { '-rm-unused' }, 'gofumpt', 'staticcheck', 'golines' },
-
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettierd', 'prettier', stop_after_first = true },
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
