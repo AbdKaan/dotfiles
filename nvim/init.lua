@@ -207,6 +207,26 @@ vim.keymap.set('x', 'p', '"_dP')
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
+-- Detach gopls on diffview
+local diffview_lsp_group = vim.api.nvim_create_augroup('diffview-disable-lsp', { clear = true })
+
+local function detach_lsp_from_diffview(bufnr)
+  local name = vim.api.nvim_buf_get_name(bufnr)
+  if not vim.startswith(name, 'diffview:') then
+    return
+  end
+
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+    vim.lsp.buf_detach_client(bufnr, client.id)
+  end
+end
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'LspAttach' }, {
+  group = diffview_lsp_group,
+  callback = function(args)
+    detach_lsp_from_diffview(args.buf)
+  end,
+})
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
@@ -652,16 +672,21 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         gopls = {
+          cmd = { 'gopls' },
+          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+          root_dir = function(fname)
+            if fname:match('^diffview:') then
+              return nil
+            end
+
+            return require('lspconfig.util').root_pattern('go.work', 'go.mod', '.git')(fname)
+          end,
           settings = {
-            cmd = { 'gopls' },
-            filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-            settings = {
-              gopls = {
-                completeUnimported = true,
-                usePlaceholders = true,
-                analyses = {
-                  unusedparams = true,
-                },
+            gopls = {
+              completeUnimported = true,
+              usePlaceholders = true,
+              analyses = {
+                unusedparams = true,
               },
             },
           },
@@ -969,6 +994,15 @@ require('lazy').setup({
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
